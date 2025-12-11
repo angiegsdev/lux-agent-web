@@ -9,23 +9,36 @@
         body {
             margin: 0;
             font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #0a1a2f, #123456);
+            background: linear-gradient(135deg, #050c1a, #102640);
             color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding-bottom: 60px;
+            padding-bottom: 70px;
         }
 
         /* ENCABEZADO */
         header {
             width: 100%;
-            padding: 14px 26px;
+            padding: 14px 26px 18px 26px;
             display: flex;
             align-items: center;
             position: relative;
             box-sizing: border-box;
+        }
+
+        /* Línea futurista que separa el encabezado */
+        header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00e5ff, #6b5cff, #00e5ff);
+            box-shadow: 0 0 14px rgba(0, 229, 255, 0.7);
+            opacity: 0.9;
         }
 
         .logo-top {
@@ -53,14 +66,14 @@
             margin: 2px 0 0 0;
         }
 
-        /* LOGO PRINCIPAL */
+        /* LOGO PRINCIPAL SIN CUADRO */
         .logo-main {
             margin-top: 50px;
             width: 180px;
             height: 180px;
             border-radius: 50%;
             object-fit: cover;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45);
         }
 
         h1 {
@@ -96,13 +109,22 @@
 
         .btn:hover {
             background-color: #32cbff;
+            box-shadow: 0 0 18px rgba(0, 183, 255, 0.7);
         }
 
         footer {
             margin-top: 40px;
             text-align: center;
             font-size: 14px;
-            opacity: 0.6;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        footer strong {
+            display: block;
+            margin-top: 4px;
+            font-size: 15px;
+            opacity: 1;
         }
 
         @media (max-width: 600px) {
@@ -129,19 +151,21 @@
         <!-- TÍTULO CENTRADO -->
         <div class="header-title-container">
             <h1 class="header-title">LUX – Agente Virtual</h1>
-            <span class="header-subtitle">Dirección de Tecnología • Ministerio de Hacienda y Crédito Público</span>
+            <span class="header-subtitle">
+                Dirección de Tecnología • Ministerio de Hacienda y Crédito Público
+            </span>
         </div>
     </header>
 
-    <!-- LOGO PRINCIPAL SIN CUADRO -->
+    <!-- LOGO PRINCIPAL SIN CUADRADO -->
     <img src="logolux.png" alt="Logo principal LUX" class="logo-main">
 
     <h1>Bienvenido</h1>
 
     <p>
         Soy <strong>LUX</strong>, el asistente virtual creado para apoyar a los funcionarios del Ministerio de Hacienda.
-        Puedo brindarte información institucional clara, confiable y alineada con los lineamientos de la Dirección de Tecnología.
-        Muy pronto podrás interactuar conmigo desde esta interfaz.
+        Puedo brindarte información institucional clara, confiable y alineada con los lineamientos de la Dirección de
+        Tecnología. Muy pronto podrás interactuar conmigo desde esta interfaz.
     </p>
 
     <div class="btn-container">
@@ -149,7 +173,8 @@
     </div>
 
     <footer>
-        Dirección de Tecnología – Ministerio de Hacienda y Crédito Público
+        Subdirección de Administración de Recursos Tecnológicos – Dirección de Tecnología – Ministerio de Hacienda y Crédito Público
+        <strong>Angie Natalia González Salas</strong>
     </footer>
 
 </body>
