@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUX – Asistente Virtual</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #0a1a2f, #123456);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+        header {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(6px);
+        }
+        .logo {
+            margin-top: 40px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: url("lux-logo.png") center/cover no-repeat;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        h1 {
+            margin-top: 25px;
+            font-size: 42px;
+            font-weight: 600;
+        }
+        p {
+            width: 70%;
+            max-width: 600px;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+        .btn-container {
+            margin-top: 35px;
+        }
+        .btn {
+            background-color: #00b7ff;
+            padding: 14px 26px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            color: #0a1a2f;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+        }
+        .btn:hover {
+            background-color: #32cbff;
+        }
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        LUX – Asistente Virtual de la Dirección de Tecnología
+    </header>
+
+    <div class="logo"></div>
+
+    <h1>Bienvenido</h1>
+
+    <p>
+        Soy <strong>LUX</strong>, el asistente virtual creado para apoyar a los funcionarios del Ministerio de Hacienda.
+        Puedo brindarte información institucional clara, confiable y alineada con los lineamientos de la Dirección de Tecnología.
+        Muy pronto podrás interactuar conmigo desde esta interfaz.
+    </p>
+
+    <div class="btn-container">
+        <button class="btn">Iniciar conversación</button>
+    </div>
+
+    <footer>
+        Dirección de Tecnología – Ministerio de Hacienda y Crédito Público
+    </footer>
+
+</body>
+</html>
