@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>LUX – Voz</title>
+
+    <!-- Azure Speech SDK -->
+    <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #0b1c2d;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            opacity: 0.85;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 14px 28px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background: #00b7ff;
+            color: #0a1a2f;
+        }
+
+        button:hover {
+            background: #32cbff;
+        }
+
+        #status {
+            margin-top: 25px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        #recognizedText {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #00e5ff;
+        }
+    </style>
+</head>
+<body>
+
+<h1>LUX – Interacción por Voz</h1>
+<p>Habla al micrófono y LUX te escuchará</p>
+
+<button onclick="startListening()">🎤 Hablar</button>
+
+<div id="status"></div>
+<div id="recognizedText"></div>
+
+<script>
+    // ⚠️ CONFIGURA AQUÍ TU AZURE SPEECH
+    const SPEECH_KEY = "PEGA_AQUI_TU_SPEECH_KEY";
+    const SPEECH_REGION = "eastus"; // ej: eastus, westus2, brazilsouth
+
+    function startListening() {
+        document.getElementById("status").innerText = "Escuchando...";
+        document.getElementById("recognizedText").innerText = "";
+
+        const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
+            SPEECH_KEY,
+            SPEECH_REGION
+        );
+
+        speechConfig.speechRecognitionLanguage = "es-CO";
+
+        const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+        const recognizer = new SpeechSDK.SpeechRecognizer(
+            speechConfig,
+            audioConfig
+        );
+
+        recognizer.recognizeOnceAsync(result => {
+            if (result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
+                document.getElementById("status").innerText = "Texto reconocido:";
+                document.getElementById("recognizedText").innerText = result.text;
+
+                // RESPUESTA DE VOZ (TTS)
+                speakText("Te escuché. Dijiste: " + result.text);
+            } else {
+                document.getElementById("status").innerText = "No se pudo reconocer la voz.";
+            }
+
+            recognizer.close();
+        });
+    }
+
+    function speakText(text) {
+        const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
+            SPEECH_KEY,
+            SPEECH_REGION
+        );
+
+        speechConfig.speechSynthesisVoiceName = "es-CO-SalomeNeural";
+
+        const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+
+        synthesizer.speakTextAsync(
+            text,
+            () => synthesizer.close(),
+            err => {
+                console.error(err);
+                synthesizer.close();
+            }
+        );
+    }
+</script>
+
+</body>
+</html>
