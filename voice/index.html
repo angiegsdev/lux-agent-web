@@ -410,190 +410,213 @@
     </aside>
 
   </main>
-
-  <script>
+<script>
     // ⚠️ CONFIGURA AQUÍ TU AZURE SPEECH
-    const SPEECH_KEY = "TU_KEY_AQUI";
+    const SPEECH_KEY = "G0GGzHTYOHoe9d7kmngp0f032jPD4UVsV1Bj6syRvKQQK2v9D7XKJQQJ99BLACYeBjFXJ3w3AAAYACOGje3y";
     const SPEECH_REGION = "eastus";
 
-    // UI helpers
-    function setListeningUI(isListening){
-      const dot = document.getElementById("dot");
-      const btn = document.getElementById("btnTalk");
-      const btnText = document.getElementById("btnText");
-      if(isListening){
-        dot.classList.add("listening");
-        btn.disabled = true;
-        btnText.textContent = "Escuchando…";
-      } else {
-        dot.classList.remove("listening");
-        btn.disabled = false;
-        btnText.textContent = "Hablar";
-      }
-    }
-
-    // Presentación (demo del criterio “saluda y se presenta”)
-    function playIntro(){
-      const msg = "Hola, soy LUX, el asistente virtual de la Dirección de Tecnología del Ministerio de Hacienda y Crédito Público. ¿En qué te puedo ayudar?";
-      document.getElementById("status").innerText = "Reproduciendo presentación…";
-      document.getElementById("luxAnswer").innerText = msg;
-      speakText(msg);
-    }
-
     function startListening() {
-      document.getElementById("status").innerText = "Escuchando…";
-      document.getElementById("recognizedText").innerText = "";
-      document.getElementById("luxAnswer").innerText = "";
-      setListeningUI(true);
+        document.getElementById("status").innerText = "Escuchando...";
+        document.getElementById("recognizedText").innerText = "";
 
-      const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(SPEECH_KEY, SPEECH_REGION);
-      speechConfig.speechRecognitionLanguage = "es-CO";
+        const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
+            SPEECH_KEY,
+            SPEECH_REGION
+        );
+        speechConfig.speechRecognitionLanguage = "es-CO";
 
-      const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
-      const recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+        const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+        const recognizer = new SpeechSDK.SpeechRecognizer(
+            speechConfig,
+            audioConfig
+        );
 
-      recognizer.recognizeOnceAsync(result => {
-        setListeningUI(false);
+        recognizer.recognizeOnceAsync(result => {
+            if (result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
+                document.getElementById("status").innerText = "Texto reconocido:";
+                document.getElementById("recognizedText").innerText = result.text;
 
-        if (result.reason === SpeechSDK.ResultReason.RecognizedSpeech) {
-          document.getElementById("status").innerText = "Listo. Procesando respuesta…";
-          document.getElementById("recognizedText").innerText = result.text;
+                const luxResponse = getLuxResponse(result.text);
+                speakText(luxResponse);
 
-          const luxResponse = getLuxResponse(result.text);
-          document.getElementById("luxAnswer").innerText = luxResponse;
+            } else {
+                speakText("Lo siento, no pude entenderte. ¿Podrías repetir?");
+            }
 
-          speakText(luxResponse);
-          document.getElementById("status").innerText = "Respuesta generada. Puedes volver a hablar.";
-        } else {
-          document.getElementById("status").innerText = "No pude entender. Intenta de nuevo.";
-          const fallback = "Lo siento, no pude entenderte. ¿Podrías repetir?";
-          document.getElementById("luxAnswer").innerText = fallback;
-          speakText(fallback);
+            recognizer.close();
+        });
+    }
+
+    // 🧠 INTELIGENCIA BÁSICA DE LUX
+    function processUserSpeech(text) {
+        const input = text.toLowerCase();
+
+        // Presentación de LUX (criterio clave del concurso)
+        if (
+            input.includes("qué eres") ||
+            input.includes("que eres") ||
+            input.includes("quién eres") ||
+            input.includes("quien eres") ||
+            input.includes("preséntate") ||
+            input.includes("presentate")
+        ) {
+            speakText(
+                "Hola, soy LUX, el asistente virtual de la Dirección de Tecnología del Ministerio de Hacienda. " +
+                "Estoy diseñado para interactuar por voz y apoyar a los usuarios con orientación e información general."
+            );
+            return;
         }
 
-        recognizer.close();
-      });
+        // Saludo
+        if (
+            input.includes("hola") ||
+            input.includes("buenos días") ||
+            input.includes("buenas tardes") ||
+            input.includes("buenas noches")
+        ) {
+            speakText("Hola, soy LUX. ¿En qué te puedo ayudar?");
+            return;
+        }
+
+        // Despedida
+        if (
+            input.includes("gracias") ||
+            input.includes("adiós") ||
+            input.includes("hasta luego")
+        ) {
+            speakText("Con gusto. Que tengas un excelente día.");
+            return;
+        }
+
+        // Respuesta genérica
+        speakText(
+            "He recibido tu mensaje. Actualmente puedo saludarte, presentarme y responder preguntas básicas."
+        );
     }
 
     // 🔊 TEXT TO SPEECH
     function speakText(text) {
-      const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(SPEECH_KEY, SPEECH_REGION);
-      speechConfig.speechSynthesisVoiceName = "es-CO-SalomeNeural";
+        const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
+            SPEECH_KEY,
+            SPEECH_REGION
+        );
+        speechConfig.speechSynthesisVoiceName = "es-CO-SalomeNeural";
 
-      const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
-      synthesizer.speakTextAsync(
-        text,
-        () => synthesizer.close(),
-        err => { console.error(err); synthesizer.close(); }
-      );
+        const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
+
+        synthesizer.speakTextAsync(
+            text,
+            () => synthesizer.close(),
+            err => {
+                console.error(err);
+                synthesizer.close();
+            }
+        );
     }
+</script>
+<script>
+function getLuxResponse(userText) {
+    const text = userText.toLowerCase();
 
-    // 🧠 INTELIGENCIA BÁSICA DE LUX (tu lógica, intacta)
-    function getLuxResponse(userText) {
-      const text = userText.toLowerCase();
-
-      // Saludo inicial
-      if (text.includes("hola") || text.includes("buenos días") || text.includes("buenas")) {
+    // Saludo inicial
+    if (text.includes("hola") || text.includes("buenos días") || text.includes("buenas")) {
         return "Hola, soy LUX, el agente virtual de la Dirección de Tecnología del Ministerio de Hacienda. ¿En qué te puedo ayudar?";
-      }
-
-      // ¿Quién eres?
-      if (text.includes("quién eres") || text.includes("qué eres") || text.includes("que eres") || text.includes("quien eres")) {
-        return "Soy LUX, el agente virtual de primer contacto de la Dirección de Tecnología del Ministerio de Hacienda y Crédito Público.";
-      }
-
-      // ¿Qué hace la Dirección de Tecnología?
-      if (text.includes("dirección de tecnología") || text.includes("direccion de tecnologia") || text.includes("qué hace la dirección") || text.includes("que hace la direccion")) {
-        return "La Dirección de Tecnología administra la infraestructura tecnológica, impulsa la innovación, fortalece la seguridad de la información y garantiza la continuidad de los servicios tecnológicos del Ministerio.";
-      }
-
-      // SART – Recursos Tecnológicos
-      if (
-        text.includes("sart") ||
-        text.includes("sar") ||
-        text.includes("recursos tecnologicos") ||
-        text.includes("recursos tecnológicos") ||
-        text.includes("administracion de recursos tecnologicos") ||
-        text.includes("subdireccion de recursos") ||
-        text.includes("subdirección de recursos")
-      ) {
-        return "La SART es la Subdirección de Administración de Recursos Tecnológicos, encargada de la infraestructura, plataformas, comunicaciones y servicios tecnológicos del Ministerio.";
-      }
-
-      // SIS – Subdirección de Ingeniería de Software
-      if (
-        text.includes("sis") ||
-        text.includes("ingenieria de software") ||
-        text.includes("ingeniería de software") ||
-        text.includes("subdireccion de ingenieria de software") ||
-        text.includes("subdirección de ingeniería de software")
-      ) {
-        return "La SIS es la Subdirección de Ingeniería de Software, responsable del desarrollo, soporte y evolución de los sistemas institucionales del Ministerio.";
-      }
-
-      // Director de Tecnología
-      if (
-        text.includes("director") ||
-        text.includes("director de tecnologia") ||
-        text.includes("director de tecnología")
-      ) {
-        return "El Director de Tecnología es Diego Fernando Huertas Ortiz.";
-      }
-
-      // Subdirector de Ingeniería de Software
-      if (
-        text.includes("subdirector de ingenieria de software") ||
-        text.includes("subdirector de ingeniería de software") ||
-        text.includes("subdirector sis") ||
-        text.includes("julio")
-      ) {
-        return "El Subdirector de Ingeniería de Software es Julio Roberto.";
-      }
-
-      // Subdirectora SART
-      if (
-        text.includes("subdirectora de recursos") ||
-        text.includes("subdirectora sart") ||
-        text.includes("subdirectora sar")
-      ) {
-        return "La Subdirectora de Administración de Recursos Tecnológicos es Clara Liliana.";
-      }
-
-      // Ministro de Hacienda
-      if (text.includes("ministro") || text.includes("ministro de hacienda")) {
-        return "El Ministro de Hacienda y Crédito Público en Colombia es Germán Ávila Plazas.";
-      }
-
-      // ¿Qué es el Ministerio de Hacienda?
-      if (
-        text.includes("que es el ministerio") ||
-        text.includes("qué es el ministerio de hacienda") ||
-        text.includes("que hace el ministerio de hacienda") ||
-        text.includes("qué hace el ministerio de hacienda")
-      ) {
-        return "El Ministerio de Hacienda y Crédito Público es la entidad encargada de la política fiscal, el presupuesto nacional, el manejo de las finanzas públicas y la sostenibilidad económica del país.";
-      }
-
-      // Horario
-      if (text.includes("horario") || text.includes("atención") || text.includes("atencion")) {
-        return "El horario de atención es de lunes a viernes, de ocho de la mañana a cinco de la tarde.";
-      }
-
-      // Despedida
-      if (text.includes("gracias") || text.includes("adiós") || text.includes("adios") || text.includes("hasta luego")) {
-        return "Con gusto. Fue un placer ayudarte. Hasta luego.";
-      }
-
-      return "Entiendo tu solicitud. En este momento puedo ayudarte con información sobre la Dirección de Tecnología, sus funciones y horarios.";
     }
 
-    // Mensaje inicial para que la pantalla no quede “muerta”
-    window.addEventListener("load", () => {
-      document.getElementById("recognizedText").innerText = "—";
-      document.getElementById("luxAnswer").innerText = "Hola, soy LUX. Presiona “Hablar” y pregúntame lo que necesites.";
-    });
-  </script>
+    // ¿Quién eres?
+    if (text.includes("quién eres") || text.includes("qué eres")) {
+        return "Soy LUX, el agente virtual de primer contacto de la Dirección de Tecnología del Ministerio de Hacienda y Crédito Público.";
+    }
+
+    // ¿Qué hace la Dirección de Tecnología?
+    if (text.includes("dirección de tecnología") || text.includes("qué hace la dirección")) {
+        return "La Dirección de Tecnología administra la infraestructura tecnológica, impulsa la innovación, fortalece la seguridad de la información y garantiza la continuidad de los servicios tecnológicos del Ministerio.";
+    }
+
+    // SART – Recursos Tecnológicos
+    if (
+      text.includes("sart") ||
+      text.includes("sar") ||
+      text.includes("recursos tecnologicos") ||
+      text.includes("recursos tecnológicos") ||
+      text.includes("administracion de recursos tecnologicos") ||
+      text.includes("subdireccion de recursos")
+    ) {
+      return "La SART es la Subdirección de Administración de Recursos Tecnológicos, encargada de la infraestructura, plataformas, comunicaciones y servicios tecnológicos del Ministerio.";
+    }
+
+
+    // SIS – Subdirección de Ingeniería de Software
+    if (
+      text.includes("sis") ||
+      text.includes("ingenieria de software") ||
+      text.includes("ingeniería de software") ||
+      text.includes("subdireccion de ingenieria de software") ||
+      text.includes("subdirección de ingeniería de software")
+    ) {
+      return "La SIS es la Subdirección de Ingeniería de Software, responsable del desarrollo, soporte y evolución de los sistemas institucionales del Ministerio.";
+    }
+
+
+    // Director de Tecnología
+    if (
+      text.includes("director") ||
+      text.includes("director de tecnologia") ||
+      text.includes("director de tecnología")
+    ) {
+      return "El Director de Tecnología es Diego Fernando Huertas Ortiz.";
+    }
+
+    // Subdirector de Ingeniería de Software
+    if (
+      text.includes("subdirector de ingenieria de software") ||
+      text.includes("subdirector sis") ||
+      text.includes("julio")
+    ) {
+      return "El Subdirector de Ingeniería de Software es Julio Roberto.";
+    }
+    
+    // Subdirectora de Recursos Tecnológicos (SART)
+    if (
+      text.includes("subdirectora de recursos") ||
+      text.includes("subdirectora sart") ||
+      text.includes("subdirectora sar")
+    ) {
+      return "La Subdirectora de Administración de Recursos Tecnológicos es Clara Liliana.";
+    }
+
+    // Ministro de Hacienda
+    if (
+      text.includes("ministro") ||
+      text.includes("ministro de hacienda")
+    ) {
+      return "El Ministro de Hacienda y Crédito Público en Colombia es Germán Ávila Plazas.";
+    }
+
+    // ¿Qué es el Ministerio de Hacienda?
+    if (
+      text.includes("que es el ministerio de hacienda") ||
+      text.includes("que es el ministerio") ||
+      text.includes("que hace el ministerio de hacienda")
+    ) {
+      return "El Ministerio de Hacienda y Crédito Público es la entidad encargada de la política fiscal, el presupuesto nacional, el manejo de las finanzas públicas y la sostenibilidad económica del país.";
+    }
+
+    // Horario
+    if (text.includes("horario") || text.includes("atención")) {
+        return "El horario de atención es de lunes a viernes, de ocho de la mañana a cinco de la tarde.";
+    }
+
+    // Despedida
+    if (text.includes("gracias") || text.includes("adiós")) {
+        return "Con gusto. Fue un placer ayudarte. Hasta luego.";
+    }
+
+    // Respuesta por defecto
+    return "Entiendo tu solicitud. En este momento puedo ayudarte con información sobre la Dirección de Tecnología, sus funciones y horarios.";
+}
+</script>
+
 
 </body>
 </html>
-
