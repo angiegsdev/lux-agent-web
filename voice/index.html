@@ -186,19 +186,72 @@ function getLuxResponse(userText) {
         return "La Dirección de Tecnología administra la infraestructura tecnológica, impulsa la innovación, fortalece la seguridad de la información y garantiza la continuidad de los servicios tecnológicos del Ministerio.";
     }
 
-    // SART
-    if (text.includes("sart")) {
-        return "SART es la Subdirección de Administración de Recursos Tecnológicos, encargada de bases de datos, comunicaciones, plataformas y el centro de cómputo.";
+    // SART – Recursos Tecnológicos
+    if (
+      text.includes("sart") ||
+      text.includes("sar") ||
+      text.includes("recursos tecnologicos") ||
+      text.includes("recursos tecnológicos") ||
+      text.includes("administracion de recursos tecnologicos") ||
+      text.includes("subdireccion de recursos")
+    ) {
+      return "La SART es la Subdirección de Administración de Recursos Tecnológicos, encargada de la infraestructura, plataformas, comunicaciones y servicios tecnológicos del Ministerio.";
     }
 
-    // SIS
-    if (text.includes("sis")) {
-        return "SIS es la Subdirección de Ingeniería de Software, responsable del desarrollo, soporte y evolución de los sistemas institucionales.";
+
+    // SIS – Subdirección de Ingeniería de Software
+    if (
+      text.includes("sis") ||
+      text.includes("ingenieria de software") ||
+      text.includes("ingeniería de software") ||
+      text.includes("subdireccion de ingenieria de software") ||
+      text.includes("subdirección de ingeniería de software")
+    ) {
+      return "La SIS es la Subdirección de Ingeniería de Software, responsable del desarrollo, soporte y evolución de los sistemas institucionales del Ministerio.";
     }
 
-    // Director
-    if (text.includes("director")) {
-        return "El Director de Tecnología es Diego Fernando Huertas Ortiz.";
+
+    // Director de Tecnología
+    if (
+      text.includes("director") ||
+      text.includes("director de tecnologia") ||
+      text.includes("director de tecnología")
+    ) {
+      return "El Director de Tecnología es Diego Fernando Huertas Ortiz.";
+    }
+
+    // Subdirector de Ingeniería de Software
+    if (
+      text.includes("subdirector de ingenieria de software") ||
+      text.includes("subdirector sis") ||
+      text.includes("julio")
+    ) {
+      return "El Subdirector de Ingeniería de Software es Julio Roberto.";
+    }
+    
+    // Subdirectora de Recursos Tecnológicos (SART)
+    if (
+      text.includes("subdirectora de recursos") ||
+      text.includes("subdirectora sart") ||
+      text.includes("clara")
+    ) {
+      return "La Subdirectora de Administración de Recursos Tecnológicos es Clara Liliana.";
+    }
+
+    // Ministro de Hacienda
+    if (
+      text.includes("ministro") ||
+      text.includes("ministro de hacienda")
+    ) {
+      return "El Ministro de Hacienda y Crédito Público en Colombia es Germán Ávila Plazas.";
+    }
+
+    // ¿Qué es el Ministerio de Hacienda?
+    if (
+      text.includes("que es el ministerio de hacienda") ||
+      text.includes("que hace el ministerio de hacienda")
+    ) {
+      return "El Ministerio de Hacienda y Crédito Público es la entidad encargada de la política fiscal, el presupuesto nacional, el manejo de las finanzas públicas y la sostenibilidad económica del país.";
     }
 
     // Horario
