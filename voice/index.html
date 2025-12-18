@@ -165,6 +165,54 @@
         );
     }
 </script>
+<script>
+function getLuxResponse(userText) {
+    const text = userText.toLowerCase();
+
+    // Saludo inicial
+    if (text.includes("hola") || text.includes("buenos días") || text.includes("buenas")) {
+        return "Hola, soy LUX, el agente virtual de la Dirección de Tecnología del Ministerio de Hacienda. ¿En qué te puedo ayudar?";
+    }
+
+    // ¿Quién eres?
+    if (text.includes("quién eres") || text.includes("qué eres")) {
+        return "Soy LUX, el agente virtual de primer contacto de la Dirección de Tecnología del Ministerio de Hacienda y Crédito Público.";
+    }
+
+    // ¿Qué hace la Dirección de Tecnología?
+    if (text.includes("dirección de tecnología") || text.includes("qué hace la dirección")) {
+        return "La Dirección de Tecnología administra la infraestructura tecnológica, impulsa la innovación, fortalece la seguridad de la información y garantiza la continuidad de los servicios tecnológicos del Ministerio.";
+    }
+
+    // SART
+    if (text.includes("sart")) {
+        return "SART es la Subdirección de Administración de Recursos Tecnológicos, encargada de bases de datos, comunicaciones, plataformas y el centro de cómputo.";
+    }
+
+    // SIS
+    if (text.includes("sis")) {
+        return "SIS es la Subdirección de Ingeniería de Software, responsable del desarrollo, soporte y evolución de los sistemas institucionales.";
+    }
+
+    // Director
+    if (text.includes("director")) {
+        return "El Director de Tecnología es Diego Fernando Huertas Ortiz.";
+    }
+
+    // Horario
+    if (text.includes("horario") || text.includes("atención")) {
+        return "El horario de atención es de lunes a viernes, de ocho de la mañana a cinco de la tarde.";
+    }
+
+    // Despedida
+    if (text.includes("gracias") || text.includes("adiós")) {
+        return "Con gusto. Fue un placer ayudarte. Hasta luego.";
+    }
+
+    // Respuesta por defecto
+    return "Entiendo tu solicitud. En este momento puedo ayudarte con información sobre la Dirección de Tecnología, sus funciones y horarios.";
+}
+</script>
 
 
 </body>
