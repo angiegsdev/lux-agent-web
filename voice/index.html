@@ -66,7 +66,7 @@
 <script>
     // ⚠️ CONFIGURA AQUÍ TU AZURE SPEECH
     const SPEECH_KEY = "G0GGzHTYOHoe9d7kmngp0f032jPD4UVsV1Bj6syRvKQQK2v9D7XKJQQJ99BLACYeBjFXJ3w3AAAYACOGje3y";
-    const SPEECH_REGION = "eastus"; // ej: eastus, westus2, brazilsouth
+    const SPEECH_REGION = "eastus";
 
     function startListening() {
         document.getElementById("status").innerText = "Escuchando...";
@@ -76,7 +76,6 @@
             SPEECH_KEY,
             SPEECH_REGION
         );
-
         speechConfig.speechRecognitionLanguage = "es-CO";
 
         const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
@@ -90,22 +89,68 @@
                 document.getElementById("status").innerText = "Texto reconocido:";
                 document.getElementById("recognizedText").innerText = result.text;
 
-                // RESPUESTA DE VOZ (TTS)
-                speakText("Te escuché. Dijiste: " + result.text);
+                processUserSpeech(result.text);
             } else {
-                document.getElementById("status").innerText = "No se pudo reconocer la voz.";
+                speakText("Lo siento, no pude entenderte. ¿Podrías repetir?");
             }
 
             recognizer.close();
         });
     }
 
+    // 🧠 INTELIGENCIA BÁSICA DE LUX
+    function processUserSpeech(text) {
+        const input = text.toLowerCase();
+
+        // Presentación de LUX (criterio clave del concurso)
+        if (
+            input.includes("qué eres") ||
+            input.includes("que eres") ||
+            input.includes("quién eres") ||
+            input.includes("quien eres") ||
+            input.includes("preséntate") ||
+            input.includes("presentate")
+        ) {
+            speakText(
+                "Hola, soy LUX, el asistente virtual de la Dirección de Tecnología del Ministerio de Hacienda. " +
+                "Estoy diseñado para interactuar por voz y apoyar a los usuarios con orientación e información general."
+            );
+            return;
+        }
+
+        // Saludo
+        if (
+            input.includes("hola") ||
+            input.includes("buenos días") ||
+            input.includes("buenas tardes") ||
+            input.includes("buenas noches")
+        ) {
+            speakText("Hola, soy LUX. ¿En qué te puedo ayudar?");
+            return;
+        }
+
+        // Despedida
+        if (
+            input.includes("gracias") ||
+            input.includes("adiós") ||
+            input.includes("hasta luego")
+        ) {
+            speakText("Con gusto. Que tengas un excelente día.");
+            return;
+        }
+
+        // Respuesta genérica
+        speakText(
+            "He recibido tu mensaje. Actualmente puedo saludarte, presentarme y responder preguntas básicas."
+        );
+    }
+
+    // 🔊 TEXT TO SPEECH
     function speakText(text) {
         const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(
             SPEECH_KEY,
             SPEECH_REGION
         );
-
         speechConfig.speechSynthesisVoiceName = "es-CO-SalomeNeural";
 
         const synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig);
@@ -120,6 +165,7 @@
         );
     }
 </script>
+
 
 </body>
 </html>
