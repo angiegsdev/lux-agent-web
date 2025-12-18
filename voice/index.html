@@ -547,6 +547,8 @@ function getLuxResponse(userText) {
     if (
       text.includes("sart") ||
       text.includes("sar") ||
+      text.includes("zar") ||
+      text.includes("zart") ||
       text.includes("recursos tecnologicos") ||
       text.includes("recursos tecnológicos") ||
       text.includes("administracion de recursos tecnologicos") ||
@@ -611,7 +613,17 @@ function getLuxResponse(userText) {
     ) {
       return "El Ministerio de Hacienda y Crédito Público es la entidad encargada de la política fiscal, el presupuesto nacional, el manejo de las finanzas públicas y la sostenibilidad económica del país.";
     }
-
+  
+    // Secretaria General del Ministerio de Hacienda
+    if (
+      text.includes("secretaria general") ||
+      text.includes("secretaria general del ministerio") ||
+      text.includes("quien es la secretaria") ||
+      text.includes("quién es la secretaria general")
+    ) {
+      return "La Secretaria General del Ministerio de Hacienda es Luz Marina Caro López.";
+    }
+  
     // Horario
     if (text.includes("horario") || text.includes("atención")) {
         return "El horario de atención es de lunes a viernes, de ocho de la mañana a cinco de la tarde.";
