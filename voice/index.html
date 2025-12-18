@@ -89,7 +89,9 @@
                 document.getElementById("status").innerText = "Texto reconocido:";
                 document.getElementById("recognizedText").innerText = result.text;
 
-                processUserSpeech(result.text);
+                const luxResponse = getLuxResponse(result.text);
+                speakText(luxResponse);
+
             } else {
                 speakText("Lo siento, no pude entenderte. ¿Podrías repetir?");
             }
