@@ -437,7 +437,9 @@
                 document.getElementById("recognizedText").innerText = result.text;
 
                 const luxResponse = getLuxResponse(result.text);
+                document.getElementById("luxAnswer").innerText = luxResponse; // ✅ NUEVO
                 speakText(luxResponse);
+
 
             } else {
                 speakText("Lo siento, no pude entenderte. ¿Podrías repetir?");
@@ -492,6 +494,14 @@
         speakText(
             "He recibido tu mensaje. Actualmente puedo saludarte, presentarme y responder preguntas básicas."
         );
+    }
+  
+    function playIntro() {
+      const msg = "Hola, soy LUX, el asistente virtual de la Dirección de Tecnología del Ministerio de Hacienda y Crédito Público. ¿En qué te puedo ayudar?";
+      document.getElementById("status").innerText = "Presentación de LUX:";
+      document.getElementById("recognizedText").innerText = "—";
+      document.getElementById("luxAnswer").innerText = msg;
+      speakText(msg);
     }
 
     // 🔊 TEXT TO SPEECH
